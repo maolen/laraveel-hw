@@ -3,9 +3,11 @@
 @section('content')
     <h1>Продукты</h1>
 
-    <p>
-        <a href="{{ route('products.create') }}">Добавить продукт</a>
-    </p>
+    @can('create', 'App\Models\Product')
+        <p>
+            <a href="{{ route('products.create') }}">Добавить продукт</a>
+        </p>
+    @endcan
 
     @if($products->isEmpty())
         <p>Нет продуктов</p>
@@ -20,7 +22,7 @@
                 </div>
             </div>
         @endforeach
-
+        {{ $products->links() }}
     @endif
 
 @endsection

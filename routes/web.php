@@ -8,4 +8,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [SiteController::class, 'index'])
     ->name('index');
 
-Route::resource('products', ProductController::class);
+Route::middleware('auth')
+    ->group(
+        function () {
+            Route::resource('products', ProductController::class)
+                ->except('index', 'show');
+        }
+    );
+
+Route::resource('products', ProductController::class)
+    ->only('index', 'show');

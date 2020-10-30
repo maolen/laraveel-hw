@@ -29,6 +29,32 @@
                 </li>
             </ul>
         </div>
+
+        <div class="navbar-nav ml-auto">
+
+            @if( auth()->check() )
+
+                <div class="nav-item">
+                    {{ auth()->user()->name }}
+                </div>
+                <div class="nav-item">
+                    <form method="post" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="btn btn-outline-danger btn-sm">Выйти</button>
+                    </form>
+                </div>
+            @else
+
+                <div class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Вход</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                </div>
+
+            @endif
+        </div>
+
     </div>
 </nav>
 
