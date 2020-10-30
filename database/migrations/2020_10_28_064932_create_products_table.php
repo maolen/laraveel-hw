@@ -17,19 +17,14 @@ class CreateProductsTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->text('description');
-            $table->string('slug')->unique;
-            $table->decimal('price',10,2);
+            $table->string('supplier');
+            $table->decimal('price',10, 2);
+            $table->text('description')->nullable();
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('products');
