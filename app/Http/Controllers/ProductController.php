@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductFormRequest;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -38,10 +39,28 @@ class ProductController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
+        /** @var Product $product */
         $product = $user->products()
             ->create($data);
 
+        $this->uploadImage($request, $product);
+
         return redirect()->route('products.show', $product);
+    }
+
+    protected function uploadImage(ProductFormRequest $request, Product $product)
+    {
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('public/images');
+
+            $product->deleteImage();
+
+            $product->update(
+                [
+                    'image_path' => $path
+                ]
+            );
+        }
     }
 
     public function show(Product $product)
@@ -66,13 +85,13 @@ class ProductController extends Controller
         );
     }
 
-
     public function update(ProductFormRequest $request, Product $product)
     {
         $this->authorize('update', $product);
 
         $data = $request->validated();
         $product->update($data);
+        $this->uploadImage($request, $product);
 
         return redirect()->route('products.show', $product);
     }
@@ -80,8 +99,15 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $this->authorize('delete', $product);
+        $product->deleteImage();
 
         $product->delete();
         return redirect()->route('products.index');
     }
+
+    public function downloadFile(Product $product)
+    {
+        return Storage::download($product->image_path, $product->model);
+    }
+
 }

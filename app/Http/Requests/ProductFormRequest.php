@@ -13,7 +13,8 @@ class ProductFormRequest extends FormRequest
             'name' => 'required|max:255',
             'supplier' => 'required|max:255',
             'price' => 'required|max:12|regex:/^\d+(\.\d{1,2})?$/',
-            'description' => ''
+            'description' => '',
+            'image' => 'nullable|image',
         ];
     }
 }

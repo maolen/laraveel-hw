@@ -26,6 +26,9 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 10, 2);
             $table->text('description')->nullable();
 
+            $table->string('image_path')
+                ->nullable();
+
             $table->timestamps();
         });
     }

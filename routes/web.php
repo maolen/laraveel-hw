@@ -18,3 +18,5 @@ Route::middleware('auth')
 
 Route::resource('products', ProductController::class)
     ->only('index', 'show');
+
+Route::get('/cars/download', [ProductController::class, 'downloadFile'])->name('download-file');

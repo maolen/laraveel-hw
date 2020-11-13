@@ -10,7 +10,8 @@ $product = $product ?? null;
 
     @include('components.form-errors')
 
-    <form action="{{ $product ? route('products.update', $product) : route('products.store')}}" method="post">
+    <form enctype="multipart/form-data"
+          action="{{ $product ? route('products.update', $product) : route('products.store')}}" method="post">
         @csrf
 
         @if($product)
@@ -48,6 +49,14 @@ $product = $product ?? null;
                    id="price"
                    name="price"
                    placeholder="Введите цену">
+        </div>
+
+        <div>
+            <label for="image">Обложка</label>
+        </div>
+        e
+        <div>
+            <input type="file" name="image" id="image" accept="image/*"/>
         </div>
 
         <div>

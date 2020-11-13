@@ -21,7 +21,23 @@ class Product extends Model
         'supplier',
         'price',
         'description',
+        'image_path',
     ];
+
+    function deleteImage()
+    {
+        if (!$this->image_path) {
+            return;
+        }
+
+        $file = storage_path('app/' . $this->image_path);
+
+        if (!file_exists($file)) {
+            return;
+        }
+
+        unlink($file);
+    }
 
     function user()
     {
